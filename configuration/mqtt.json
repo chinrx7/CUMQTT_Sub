@@ -1,0 +1,8 @@
+{
+    "host" : "cad63357118541a784e593a2a692b699.s1.eu.hivemq.cloud",
+    "port" : 8883,
+    "protocol" : "mqtts",
+    "username" : "cusolar",
+    "password" : "CUSolar48",
+    "ToggleTime" : 2000
+}
