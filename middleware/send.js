@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { config } = require('./cfg');
+const logger = require('./log');
 
 const url = config.APIUrl;
 
@@ -15,7 +16,6 @@ getToken = async () => {
     const body = { user: "Solarsys", password: "PP@@ssw0rd555" };
     await axios.post(url + 'authen', body)
         .then(function (res) {
-            console.log(res)
             token = res.data.Access.Token
         })
 
@@ -23,16 +23,32 @@ getToken = async () => {
 }
 
 SendData = async (Name, Val) => {
-    let datas = [];
-    const data = {
+    let rdatas = [];
+    const tmp = new Date;
+    const rdata = {
         Name: Name,
         Value: Val,
         Unit: '-',
-        TimeStamp: new Date
+        TimeStamp: tmp
     }
 
-    datas.push(data)
+    rdatas.push(rdata)
 
-    await axios.post(url + 'updatedata', datas, { headers: { Authorization: TKN } });
+    await axios.post(url + 'updatedata', rdatas, { headers: { Authorization: TKN } });
 
+    let hdatas = [];
+    const hdata = {
+        Name: Name,
+        Records:[
+            {
+                Value: Val,
+                TimeStamp: tmp
+            }
+        ]
+    }
+
+    hdatas.push(hdata);
+
+    await axios.post(url + 'inserthis', hdatas, { headers: { Authorization: TKN } });
+    logger.loginfo(`${Name} send data to api success`);
 }

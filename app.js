@@ -28,11 +28,11 @@ client.on('error', (err) => {
 client.on('message', async (topic, message) => {
     console.log(topic, message.toString());
     if(topic.includes('_st')){
-        console.log('is status');
         const spt = topic.split('/');
         const nspt = spt[1].split('_');
         const CBName = nspt[0] + '.status';
 
+        logger.loginfo(`Status receive ${CBName} ${message.toString()}`)
         await SendAPI.SendData(CBName, message.toString());
     }
 });
